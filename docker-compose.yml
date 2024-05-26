@@ -1,0 +1,22 @@
+
+services:
+  service_a:
+    build: ./service_a
+    ports:
+      - "8081:8081"
+    environment:
+      - WEATHER_API_KEY=${WEATHER_API_KEY}
+    depends_on:
+      - service_b
+
+  service_b:
+    build: ./service_b
+    ports:
+      - "8082:8082"
+    environment:
+      - WEATHER_API_KEY=${WEATHER_API_KEY}
+
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
