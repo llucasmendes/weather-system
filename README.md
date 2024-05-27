@@ -44,6 +44,6 @@ Acesse http://localhost:9411 para visualizar os traces e spans no Zipkin.
 Para executar os testes automatizados no serviço B, utilize:
 
 ```sh
-cd service-b
+cd service_b
 go test ./...
 ```

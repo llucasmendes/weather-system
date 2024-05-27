@@ -8,6 +8,7 @@ services:
       - WEATHER_API_KEY=${WEATHER_API_KEY}
     depends_on:
       - service_b
+      - zipkin
 
   service_b:
     build: ./service_b
@@ -15,6 +16,8 @@ services:
       - "8082:8082"
     environment:
       - WEATHER_API_KEY=${WEATHER_API_KEY}
+    depends_on:
+      - zipkin
 
   zipkin:
     image: openzipkin/zipkin

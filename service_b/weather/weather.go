@@ -36,7 +36,11 @@ func GetWeather(c *gin.Context) {
 
 	city, err := getCityFromZipcode(ctx, req.CEP)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": "can not find zipcode"})
+		if err.Error() == "can not find zipcode" {
+			c.JSON(http.StatusNotFound, gin.H{"message": "can not find zipcode"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
+		}
 		return
 	}
 
@@ -76,6 +80,10 @@ func getCityFromZipcode(ctx context.Context, zipcode string) (string, error) {
 	}
 
 	data := *(resp.Result().(*map[string]interface{}))
+	if _, ok := data["erro"]; ok {
+		return "", errors.New("can not find zipcode")
+	}
+
 	city, exists := data["localidade"].(string)
 	if !exists {
 		return "", errors.New("invalid response from viaCEP")
