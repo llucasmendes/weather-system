@@ -41,7 +41,7 @@ func main() {
 }
 
 func setupTracer(_ context.Context) (*trace.TracerProvider, error) {
-	endpoint := "http://localhost:9411/api/v2/spans"
+	endpoint := "http://zipkin:9411/api/v2/spans" // alterado para usar o nome do serviço no Docker Compose
 	exporter, err := zipkin.New(endpoint)
 	if err != nil {
 		return nil, err

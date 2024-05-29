@@ -25,7 +25,11 @@ func HandleCEP(c *gin.Context) {
 
 	response, err := ForwardToServiceB(ctx, req.CEP)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
+		if err.Error() == "zipcode not found" {
+			c.JSON(http.StatusNotFound, gin.H{"message": "can not find zipcode"})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "internal server error"})
+		}
 		return
 	}
 

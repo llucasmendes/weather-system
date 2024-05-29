@@ -35,6 +35,9 @@ func ForwardToServiceB(ctx context.Context, cep string) (*TemperatureResponse, e
 		return nil, err
 	}
 
+	if resp.StatusCode() == http.StatusNotFound {
+		return nil, errors.New("zipcode not found")
+	}
 	if resp.StatusCode() != http.StatusOK {
 		return nil, errors.New("failed to get response from service B")
 	}
